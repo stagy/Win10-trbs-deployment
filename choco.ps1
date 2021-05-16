@@ -2,8 +2,8 @@ Start-Job -Name "GroupPolicy" -ScriptBlock {
     Write-Host "disabling LocalPasswordResetQuestions"
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System" -Name "NoLocalPasswordResetQuestions" -Type DWord -Value 1
     # New-LocalUser -Name "Elizabet" -Description "Test User" -NoPassword
-    Write-Host "disabling LocalPasswordResetQuestions"
-    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows" -Name "WindowsUpdate" -Type DWord -Value 1
+    # Write-Host "disabling WindowsUpdate"
+    # Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows" -Name "WindowsUpdate" -Type DWord -Value 1
     # net stop wuauserv
     # sc config wuauserv start= disabled
 
@@ -19,7 +19,9 @@ Start-Job -Name "WinFeature" -ScriptBlock {
 $tweaks = @(
     ### Require administrator privileges ###
     "RequireAdmin",
+    
     #"essentialCreateRestorePoint"
+    "InstallChocolatey", #REQUIRED FOR OTHER PROGRAM INSTALLS!
     "essentialOOshutup"
     "essentialDisableTelemetry"
     "essentialDisableApplicationSuggestions"
@@ -29,7 +31,7 @@ $tweaks = @(
     "trbsEnableFDResPub",
     "trbsSetVisualFXPerformance",
 
-    #"InstallChocolatey", #REQUIRED FOR OTHER PROGRAM INSTALLS!
+    
 
     #"trbsChocolateyInstallAlways",
     #"InstallChocolateygui",
@@ -101,6 +103,16 @@ Function trbsSetVisualFXPerformance {
     $Shortcut = $WshShell.CreateShortcut("$Home\Desktop\update " + $myUpdateDateVernuepfung + ".lnk")
     $Shortcut.TargetPath = "ms-settings:windowsupdate-action"
     $Shortcut.Save()
+
+
+    $wshShell = New-Object -ComObject "WScript.Shell"
+    $urlShortcut = $wshShell.CreateShortcut(
+        (Join-Path $wshShell.SpecialFolders.Item("AllUsersDesktop") "update " + $myUpdateDateVernuepfung + ".url")
+    )
+    $urlShortcut.TargetPath = "ms-settings:windowsupdate-action"
+    $urlShortcut.Save()
+
+
 
     $RegKey = "HKLM:\Software\Microsoft\Windows NT\CurrentVersion\"
     Set-ItemProperty -path $RegKey -Name "RegisteredOwner"  -value install
