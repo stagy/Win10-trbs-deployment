@@ -20,9 +20,9 @@ $tweaks = @(
     ### Require administrator privileges ###
     "RequireAdmin",
     
-    #"essentialCreateRestorePoint"
+    "essentialCreateRestorePoint"
     "InstallChocolatey", #REQUIRED FOR OTHER PROGRAM INSTALLS!
-    "essentialOOshutup"
+    #"essentialOOshutup"
     "essentialDisableTelemetry"
     "essentialDisableApplicationSuggestions"
     "essentialDisableRest"
@@ -107,7 +107,7 @@ Function trbsSetVisualFXPerformance {
 
     $wshShell = New-Object -ComObject "WScript.Shell"
     $urlShortcut = $wshShell.CreateShortcut(
-        (Join-Path $wshShell.SpecialFolders.Item("AllUsersDesktop") "update " + $myUpdateDateVernuepfung + ".url")
+        (Join-Path $wshShell.SpecialFolders.Item("AllUsersDesktop") "update.url")
     )
     $urlShortcut.TargetPath = "ms-settings:windowsupdate-action"
     $urlShortcut.Save()
@@ -312,11 +312,18 @@ function essentialDisableRest {
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System" -Name "EnableActivityFeed" -Type DWord -Value 0
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System" -Name "PublishUserActivities" -Type DWord -Value 0
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System" -Name "UploadUserActivities" -Type DWord -Value 0
+    
+    $RegCurrentVersion = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\location"
     Write-Host "Disabling Location Tracking..."
-    If (!(Test-Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\location")) {
-        New-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\location" -Force | Out-Null
+    If (!(Test-Path $RegCurrentVersion)) {
+        Write-Host "NICHT DA $RegCurrentVersion"
+        New-Item -Path $RegCurrentVersion -Force | Out-Null
     }
-    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\location" -Name "Value" -Type String -Value "Deny"
+    else {
+        Write-Host "NICHT DA $RegCurrentVersion"
+    }
+    Set-ItemProperty -Path $RegCurrentVersion -Name "Value" -Type String -Value "Deny"
+
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Sensor\Overrides\{BFA794E4-F964-4FDB-90F6-51056BFE4B44}" -Name "SensorPermissionState" -Type DWord -Value 0
     Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\lfsvc\Service\Configuration" -Name "Status" -Type DWord -Value 0
     Write-Host "Disabling automatic Maps updates..."
