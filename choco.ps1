@@ -1,9 +1,4 @@
 Start-Job -Name "WinFeature" -ScriptBlock {
-    Write-Host "disabling the deprecated PowerShell 2.0"
-    Disable-WindowsOptionalFeature -Online -FeatureName MicrosoftWindowsPowerShellV2Root
-    Write-Output "Uninstalling Microsoft XPS Document Writer..."
-    Get-WindowsOptionalFeature -Online | Where-Object { $_.FeatureName -eq "Printing-XPSServices-Features" } | Disable-WindowsOptionalFeature -Online -NoRestart -WarningAction SilentlyContinue | Out-Null
-
     Write-Host "disabling LocalPasswordResetQuestions"
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System" -Name "NoLocalPasswordResetQuestions" -Type DWord -Value 1
     # New-LocalUser -Name "Elizabet" -Description "Test User" -NoPassword
@@ -11,6 +6,14 @@ Start-Job -Name "WinFeature" -ScriptBlock {
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows" -Name "WindowsUpdate" -Type DWord -Value 1
     # net stop wuauserv
     # sc config wuauserv start= disabled
+
+}
+Start-Job -Name "WinFeature" -ScriptBlock {
+    Write-Host "disabling the deprecated PowerShell 2.0"
+    Disable-WindowsOptionalFeature -Online -FeatureName MicrosoftWindowsPowerShellV2Root
+    Write-Output "Uninstalling Microsoft XPS Document Writer..."
+    Get-WindowsOptionalFeature -Online | Where-Object { $_.FeatureName -eq "Printing-XPSServices-Features" } | Disable-WindowsOptionalFeature -Online -NoRestart -WarningAction SilentlyContinue | Out-Null
+
 }
 # Default preset
 $tweaks = @(
@@ -21,8 +24,9 @@ $tweaks = @(
     "sosStartDebloat",
     "sosFixWhitelistedApps",
     "trbsUninstallOneDrive",
+    "trbsEnableFDResPub",
+    "trbsSetVisualFXPerformance",
     #"trbsInstall",
-    #"trbsSetVisualFXPerformance",
     #"InstallChocolateygui",
     #"Install1password",
     "WaitForKey"
@@ -92,13 +96,12 @@ Function trbsSetVisualFXPerformance {
     $Shortcut = $WshShell.CreateShortcut("$Home\Desktop\update " + $myUpdateDateVernuepfung + ".lnk")
     $Shortcut.TargetPath = "ms-settings:windowsupdate-action"
     $Shortcut.Save()
-    EnableFDResPub
 
     $RegKey = "HKLM:\Software\Microsoft\Windows NT\CurrentVersion\"
     Set-ItemProperty -path $RegKey -Name "RegisteredOwner"  -value install
     Set-ItemProperty -path $RegKey -name "RegisteredOrganization"  -value "trbs $myUpdateDateVernuepfung"
 }
-Function EnableFDResPub {
+Function trbsEnableFDResPub {
     # :: https://www.tenforums.com/performance-maintenance/138011-restore-windows-services-default-startup-settings.html
     # :: sc config fdPHost start=auto
     # :: net start fdPHost 
