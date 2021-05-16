@@ -6,6 +6,7 @@ Start-Job -Name "WinFeature" -ScriptBlock {
 
     Write-Host "disabling LocalPasswordResetQuestions"
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System" -Name "NoLocalPasswordResetQuestions" -Type DWord -Value 1
+    # New-LocalUser -Name "Elizabet" -Description "Test User" -NoPassword
     Write-Host "disabling LocalPasswordResetQuestions"
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows" -Name "WindowsUpdate" -Type DWord -Value 1
     # net stop wuauserv
@@ -17,7 +18,9 @@ $tweaks = @(
     "RequireAdmin",
     #"CreateRestorePoint"
     #"InstallTitusProgs", #REQUIRED FOR OTHER PROGRAM INSTALLS!
-    "StartDebloat",
+    "sosStartDebloat",
+    "sosFixWhitelistedApps",
+    "trbsUninstallOneDrive",
     #"trbsInstall",
     #"trbsSetVisualFXPerformance",
     #"InstallChocolateygui",
@@ -33,7 +36,7 @@ Function trbsInstall {
     choco install "vscode" -y
     choco install "googlechrome" -y
 }
-function StartDebloat {
+function sosStartDebloat {
     
     #Removes AppxPackages
     #Credit to Reddit user /u/GavinEke for a modified version of my whitelist code
@@ -45,9 +48,24 @@ function StartDebloat {
     Get-AppxPackage -AllUsers | Where-Object { $_.Name -NotMatch $WhitelistedApps } | Remove-AppxPackage -ErrorAction SilentlyContinue
     $AppxRemoval = Get-AppxProvisionedPackage -Online | Where-Object { $_.PackageName -NotMatch $WhitelistedApps } 
     ForEach ( $App in $AppxRemoval) {
-        Write-Host "Trying to remove $App.PackageName."
+        Write-Host "Trying to remove $App ."
         Remove-AppxProvisionedPackage -Online -PackageName $App.PackageName 
         
+    }
+}
+#This includes fixes by xsisbest
+function sosFixWhitelistedApps {
+    
+    If (!(Get-AppxPackage -AllUsers | Select-Object Microsoft.Paint3D, Microsoft.MSPaint, Microsoft.WindowsCalculator, Microsoft.WindowsStore, Microsoft.MicrosoftStickyNotes, Microsoft.WindowsSoundRecorder, Microsoft.Windows.Photos)) {
+    
+        #Credit to abulgatz for the 4 lines of code
+        Get-AppxPackage -allusers Microsoft.Paint3D | ForEach-Object { Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml" }
+        Get-AppxPackage -allusers Microsoft.MSPaint | ForEach-Object { Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml" }
+        Get-AppxPackage -allusers Microsoft.WindowsCalculator | ForEach-Object { Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml" }
+        Get-AppxPackage -allusers Microsoft.WindowsStore | ForEach-Object { Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml" }
+        Get-AppxPackage -allusers Microsoft.MicrosoftStickyNotes | ForEach-Object { Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml" }
+        Get-AppxPackage -allusers Microsoft.WindowsSoundRecorder | ForEach-Object { Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml" }
+        Get-AppxPackage -allusers Microsoft.Windows.Photos | ForEach-Object { Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml" } 
     }
 }
 
@@ -106,7 +124,7 @@ function trbsUninstall {
     Write-Output "Uninstalling default third party applications..."
     Get-AppxPackage "SpotifyAB.SpotifyMusic" | Remove-AppxPackage
     Get-AppxPackage "XINGAG.XING" | Remove-AppxPackage
-    trbsUninstallOneDrive
+    
 }
 
 function trbsUninstallOneDrive {
@@ -327,4 +345,4 @@ $tweaks | ForEach { Invoke-Expression $_ }
 
 
 Write-Output "How to view installed apps with PowerShell on Windows 10..."
-Write-Output "Get-AppxPackage –AllUsers | Select Name, PackageFullName"
+Write-Output "Get-AppxPackage -AllUsers | Select Name, PackageFullName"
