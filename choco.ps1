@@ -1,4 +1,7 @@
+Start-Job -Name "Startup" -ScriptBlock {
+
 Write-Host "Install ALWAYS ================"
+}
 # Default preset
 $tweaks = @(
     ### Require administrator privileges ###
@@ -21,8 +24,8 @@ Function trbsInstall {
     choco install "vscode" -y
     choco install "googlechrome" -y
 }
-
-Function trbsSetVisualFXPerformance {
+#Install Latest Windows Updates
+Start-Job -Name "trbsSetVisualFXPerformance" -ScriptBlock {
     Write-Output "Die aktuelle Version von Windows 10 dauerhaft auf dem Desktop anzeigen ..."
     #Set-ItemProperty -Path "HKCU:\Control Panel\Desktop" -Name "PaintDesktopVersion" -Type DWord -Value 0
     Set-ItemProperty -Path "HKCU:\Control Panel\Desktop" -Name "PaintDesktopVersion" -Type DWord -Value 1
@@ -50,6 +53,9 @@ Function trbsSetVisualFXPerformance {
     $RegKey = "HKLM:\Software\Microsoft\Windows NT\CurrentVersion\"
     Set-ItemProperty -path $RegKey -Name "RegisteredOwner"  -value install
     Set-ItemProperty -path $RegKey -name "RegisteredOrganization"  -value "trbs $myUpdateDateVernuepfung"
+}
+Function trbsSetVisualFXPerformance {
+
 }
 Function EnableFDResPub {
     # :: https://www.tenforums.com/performance-maintenance/138011-restore-windows-services-default-startup-settings.html
