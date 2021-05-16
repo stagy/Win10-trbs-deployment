@@ -1,6 +1,13 @@
-Start-Job -Name "Startup" -ScriptBlock {
+Start-Job -Name "WinFeature" -ScriptBlock {
+    Write-Host "disabling the deprecated PowerShell 2.0"
+    Disable-WindowsOptionalFeature -Online -FeatureName MicrosoftWindowsPowerShellV2Root
+    Write-Output "Uninstalling Microsoft XPS Document Writer..."
+    Get-WindowsOptionalFeature -Online | Where-Object { $_.FeatureName -eq "Printing-XPSServices-Features" } | Disable-WindowsOptionalFeature -Online -NoRestart -WarningAction SilentlyContinue | Out-Null
 
-Write-Host "Install ALWAYS ================"
+    Write-Host "disabling LocalPasswordResetQuestions"
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System" -Name "NoLocalPasswordResetQuestions" -Type DWord -Value 1
+    Write-Host "disabling LocalPasswordResetQuestions"
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows" -Name "WindowsUpdate" -Type DWord -Value 1
 }
 # Default preset
 $tweaks = @(
@@ -8,7 +15,7 @@ $tweaks = @(
     "RequireAdmin",
     "CreateRestorePoint"
     "InstallTitusProgs", #REQUIRED FOR OTHER PROGRAM INSTALLS!
-    "trbsUninstall",
+    "StartDebloat",
     #"trbsInstall",
     #"trbsSetVisualFXPerformance",
     #"InstallChocolateygui",
@@ -24,8 +31,25 @@ Function trbsInstall {
     choco install "vscode" -y
     choco install "googlechrome" -y
 }
-#Install Latest Windows Updates
-Start-Job -Name "trbsSetVisualFXPerformance" -ScriptBlock {
+function StartDebloat {
+    
+    #Removes AppxPackages
+    #Credit to Reddit user /u/GavinEke for a modified version of my whitelist code
+    [regex]$WhitelistedApps = 'Microsoft.ScreenSketch|Microsoft.Paint3D|Microsoft.WindowsCalculator|Microsoft.WindowsStore|Microsoft.Windows.Photos|CanonicalGroupLimited.UbuntuonWindows|`
+    Microsoft.MicrosoftStickyNotes|Microsoft.MSPaint|Microsoft.WindowsCamera|.NET|Framework|Microsoft.HEIFImageExtension|Microsoft.ScreenSketch|Microsoft.StorePurchaseApp|`
+    Microsoft.VP9VideoExtensions|Microsoft.WebMediaExtensions|Microsoft.WebpImageExtension|Microsoft.DesktopAppInstaller'
+    Get-AppxPackage -AllUsers | Where-Object { $_.Name -NotMatch $WhitelistedApps } | Remove-AppxPackage -ErrorAction SilentlyContinue
+    #Run this again to avoid error on 1803 or having to reboot.
+    Get-AppxPackage -AllUsers | Where-Object { $_.Name -NotMatch $WhitelistedApps } | Remove-AppxPackage -ErrorAction SilentlyContinue
+    $AppxRemoval = Get-AppxProvisionedPackage -Online | Where-Object { $_.PackageName -NotMatch $WhitelistedApps } 
+    ForEach ( $App in $AppxRemoval) {
+    
+        Remove-AppxProvisionedPackage -Online -PackageName $App.PackageName 
+        
+    }
+}
+
+Function trbsSetVisualFXPerformance {
     Write-Output "Die aktuelle Version von Windows 10 dauerhaft auf dem Desktop anzeigen ..."
     #Set-ItemProperty -Path "HKCU:\Control Panel\Desktop" -Name "PaintDesktopVersion" -Type DWord -Value 0
     Set-ItemProperty -Path "HKCU:\Control Panel\Desktop" -Name "PaintDesktopVersion" -Type DWord -Value 1
@@ -54,9 +78,6 @@ Start-Job -Name "trbsSetVisualFXPerformance" -ScriptBlock {
     Set-ItemProperty -path $RegKey -Name "RegisteredOwner"  -value install
     Set-ItemProperty -path $RegKey -name "RegisteredOrganization"  -value "trbs $myUpdateDateVernuepfung"
 }
-Function trbsSetVisualFXPerformance {
-
-}
 Function EnableFDResPub {
     # :: https://www.tenforums.com/performance-maintenance/138011-restore-windows-services-default-startup-settings.html
     # :: sc config fdPHost start=auto
@@ -70,8 +91,7 @@ Function EnableFDResPub {
     Start-Service "FDResPub" -WarningAction SilentlyContinue
 }
 function trbsUninstall {
-    Write-Output "Uninstalling Microsoft XPS Document Writer..."
-    Get-WindowsOptionalFeature -Online | Where-Object { $_.FeatureName -eq "Printing-XPSServices-Features" } | Disable-WindowsOptionalFeature -Online -NoRestart -WarningAction SilentlyContinue | Out-Null
+
     
 
     Write-Output "Uninstalling default Microsoft applications..."
