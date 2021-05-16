@@ -34,7 +34,7 @@ $tweaks = @(
     
 
     #"trbsChocolateyInstallAlways",
-    #"InstallChocolateygui",
+    "InstallChocolateygui",
     #"InstallChocolate1password",
     "WaitForKey"
 )
@@ -117,6 +117,9 @@ Function trbsSetVisualFXPerformance {
     $RegKey = "HKLM:\Software\Microsoft\Windows NT\CurrentVersion\"
     Set-ItemProperty -path $RegKey -Name "RegisteredOwner"  -value install
     Set-ItemProperty -path $RegKey -name "RegisteredOrganization"  -value "trbs $myUpdateDateVernuepfung"
+
+    $value = @{Description = 'trbs -> My computer' }
+    Set-CimInstance -Query 'Select * From Win32_OperatingSystem' -Property $value
 }
 Function trbsEnableFDResPub {
     # :: https://www.tenforums.com/performance-maintenance/138011-restore-windows-services-default-startup-settings.html
@@ -313,19 +316,19 @@ function essentialDisableRest {
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System" -Name "PublishUserActivities" -Type DWord -Value 0
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System" -Name "UploadUserActivities" -Type DWord -Value 0
     
-    $RegCurrentVersion = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\location"
-    Write-Host "Disabling Location Tracking..."
-    If (!(Test-Path $RegCurrentVersion)) {
-        Write-Host "NICHT DA $RegCurrentVersion"
-        New-Item -Path $RegCurrentVersion -Force | Out-Null
-    }
-    else {
-        Write-Host "NICHT DA $RegCurrentVersion"
-    }
-    Set-ItemProperty -Path $RegCurrentVersion -Name "Value" -Type String -Value "Deny"
+    # $RegCurrentVersion = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\location"
+    # Write-Host "Disabling Location Tracking..."
+    # If (!(Test-Path $RegCurrentVersion)) {
+    #     Write-Host "NICHT DA $RegCurrentVersion"
+    #     New-Item -Path $RegCurrentVersion -Force | Out-Null
+    # }
+    # else {
+    #     Write-Host "NICHT DA $RegCurrentVersion"
+    # }
+    # Set-ItemProperty -Path $RegCurrentVersion -Name "Value" -Type String -Value "Deny"
 
-    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Sensor\Overrides\{BFA794E4-F964-4FDB-90F6-51056BFE4B44}" -Name "SensorPermissionState" -Type DWord -Value 0
-    Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\lfsvc\Service\Configuration" -Name "Status" -Type DWord -Value 0
+    # Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Sensor\Overrides\{BFA794E4-F964-4FDB-90F6-51056BFE4B44}" -Name "SensorPermissionState" -Type DWord -Value 0
+    # Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\lfsvc\Service\Configuration" -Name "Status" -Type DWord -Value 0
     Write-Host "Disabling automatic Maps updates..."
     Set-ItemProperty -Path "HKLM:\SYSTEM\Maps" -Name "AutoUpdateEnabled" -Type DWord -Value 0
     Write-Host "Disabling Feedback..."
@@ -349,11 +352,11 @@ function essentialDisableRest {
     Write-Host "Disabling Error reporting..."
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\Windows Error Reporting" -Name "Disabled" -Type DWord -Value 1
     Disable-ScheduledTask -TaskName "Microsoft\Windows\Windows Error Reporting\QueueReporting" | Out-Null
-    Write-Host "Restricting Windows Update P2P only to local network..."
-    If (!(Test-Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Config")) {
-        New-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Config" | Out-Null
-    }
-    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Config" -Name "DODownloadMode" -Type DWord -Value 1
+    # Write-Host "Restricting Windows Update P2P only to local network..."
+    # If (!(Test-Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Config")) {
+    #     New-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Config" | Out-Null
+    # }
+    # Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Config" -Name "DODownloadMode" -Type DWord -Value 1
     Write-Host "Stopping and disabling Diagnostics Tracking Service..."
     Stop-Service "DiagTrack" -WarningAction SilentlyContinue
     Set-Service "DiagTrack" -StartupType Disabled
@@ -362,11 +365,11 @@ function essentialDisableRest {
     Set-Service "dmwappushservice" -StartupType Disabled
     Write-Host "Enabling F8 boot menu options..."
     bcdedit /set `{current`} bootmenupolicy Legacy | Out-Null
-    Write-Host "Stopping and disabling Home Groups services..."
-    Stop-Service "HomeGroupListener" -WarningAction SilentlyContinue
-    Set-Service "HomeGroupListener" -StartupType Disabled
-    Stop-Service "HomeGroupProvider" -WarningAction SilentlyContinue
-    Set-Service "HomeGroupProvider" -StartupType Disabled
+    # Write-Host "Stopping and disabling Home Groups services..."
+    # Stop-Service "HomeGroupListener" -WarningAction SilentlyContinue
+    # Set-Service "HomeGroupListener" -StartupType Disabled
+    # Stop-Service "HomeGroupProvider" -WarningAction SilentlyContinue
+    # Set-Service "HomeGroupProvider" -StartupType Disabled
     Write-Host "Disabling Remote Assistance..."
     Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Remote Assistance" -Name "fAllowToGetHelp" -Type DWord -Value 0
     Write-Host "Disabling Storage Sense..."
@@ -589,3 +592,4 @@ $tweaks | ForEach { Invoke-Expression $_ }
 
 Write-Output "How to view installed apps with PowerShell on Windows 10..."
 Write-Output "Get-AppxPackage -AllUsers | Select Name, PackageFullName"
+Write-Host "Rename-Computer -NewName "New_Computer_Name" -restart"
