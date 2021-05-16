@@ -295,6 +295,3 @@ If ($args) {
 # Call the desired tweak functions
 $tweaks | ForEach { Invoke-Expression $_ }
 
-
-Write-Output "How to view installed apps with PowerShell on Windows 10..."
-Write-Output "Get-AppxPackage –AllUsers | Select Name, PackageFullName"
