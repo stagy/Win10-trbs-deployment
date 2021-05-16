@@ -5,15 +5,18 @@ This is the  Windows 10 Script for trbs. I also added Chocolatey and other tools
 ### Getting started
 <code style="background-color:grey">(new-object Net.WebClient).DownloadString("https://raw.githubusercontent.com/ligershark/nuget-powershell/master/get-nugetps.ps1") | iex</code>
 
+```powershell
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File choco.ps1
 
 :: Set-ExecutionPolicy -ExecutionPolicy 'RemoteSigned' -Scope 'CurrentUser'
-:: iex ((New-Object System.Net.WebClient).DownloadString('https://git.io/JJ8R4'))
+iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/stagy/Win10-trbs-deployment/main/choco.ps1'))
+```
 
 ## Additional configurations were considered from:
 - [Windows-Optimize-Harden-Debloat
 ](https://github.com/simeononsecurity/Windows-Optimize-Harden-Debloat/)
-
+- [Win10script January 2021 Update
+](https://github.com/ChrisTitusTech/win10script)
 ## How to run the script
 ### Manual Install:
 If manually downloaded, the script must be launched from an administrative powershell in the directory containing all the files from the [GitHub Repository](https://github.com/simeononsecurity/Windows-Optimize-Harden-Debloat)
@@ -25,5 +28,6 @@ Get-ChildItem -Recurse *.ps1 | Unblock-File
 ### Automated Install:
 Use this one-liner to automatically download, unzip all supporting files, and run the latest version of the script.
 ```powershell
-iwr -useb 'https://simeononsecurity.ch/scripts/windowsoptimizeandharden.ps1'|iex
+iwr -useb 'https://github.com/simeononsecurity/Windows-Optimize-Harden-Debloat/blob/master/sos-optimize-windows.ps1'|iex
 ```
+iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/simeononsecurity/Windows-Optimize-Harden-Debloat/master/sos-optimize-windows.ps1'))
