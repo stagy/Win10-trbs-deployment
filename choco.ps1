@@ -8,13 +8,15 @@ Start-Job -Name "WinFeature" -ScriptBlock {
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System" -Name "NoLocalPasswordResetQuestions" -Type DWord -Value 1
     Write-Host "disabling LocalPasswordResetQuestions"
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows" -Name "WindowsUpdate" -Type DWord -Value 1
+    # net stop wuauserv
+    # sc config wuauserv start= disabled
 }
 # Default preset
 $tweaks = @(
     ### Require administrator privileges ###
     "RequireAdmin",
-    "CreateRestorePoint"
-    "InstallTitusProgs", #REQUIRED FOR OTHER PROGRAM INSTALLS!
+    #"CreateRestorePoint"
+    #"InstallTitusProgs", #REQUIRED FOR OTHER PROGRAM INSTALLS!
     "StartDebloat",
     #"trbsInstall",
     #"trbsSetVisualFXPerformance",
@@ -43,7 +45,7 @@ function StartDebloat {
     Get-AppxPackage -AllUsers | Where-Object { $_.Name -NotMatch $WhitelistedApps } | Remove-AppxPackage -ErrorAction SilentlyContinue
     $AppxRemoval = Get-AppxProvisionedPackage -Online | Where-Object { $_.PackageName -NotMatch $WhitelistedApps } 
     ForEach ( $App in $AppxRemoval) {
-    
+        Write-Host "Trying to remove $App.PackageName."
         Remove-AppxProvisionedPackage -Online -PackageName $App.PackageName 
         
     }
@@ -154,7 +156,8 @@ function Show-Choco-Menu {
    
     do {
         Write-Host "=== $Title ================"
-        Write-Host "Y: Press 'Y' to do this."
+        Write-Host "Y: Press 'Y' t
+        o do this."
         Write-Host "2: Press 'N' to skip this."
         Write-Host "Q: Press 'Q' to stop the entire script."
         $selection = Read-Host "Please make a selection"
@@ -297,7 +300,7 @@ Function CreateRestorePoint {
     Enable-ComputerRestore -Drive "C:\"
     $myName = Get-Date -Format "yyMM"
     #$restorePointName = ("TR-Config RestorePoint " + $myName)
-    Checkpoint-Computer -Description "=== $myName ================"  -RestorePointType "MODIFY_SETTINGS"
+    Checkpoint-Computer -Description "trbs autoRestorePoint $myName ================"  -RestorePointType "MODIFY_SETTINGS"
 }
 #endregion
 
