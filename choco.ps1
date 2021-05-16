@@ -1,3 +1,5 @@
+$wshShell = New-Object -ComObject "WScript.Shell"
+
 Start-Job -Name "GroupPolicy" -ScriptBlock {
     Write-Host "disabling LocalPasswordResetQuestions"
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System" -Name "NoLocalPasswordResetQuestions" -Type DWord -Value 1
@@ -95,19 +97,12 @@ Function trbsSetVisualFXPerformance {
     # Remove-ItemProperty -Path "HKLM:\SOFTWARE\Wow6432Node\Microsoft\.NETFramework\v4.0.30319" -Name "SchUseStrongCrypto" -ErrorAction SilentlyContinue
 
     Write-output "erstelle windows update shortcut..."
-    $WshShell = New-Object -comObject WScript.Shell
     $myName = Get-Date -Format "yyMM"
     $myUpdateDateVernuepfung = "(" + $myName + ")"
-
-    
-    $Shortcut = $WshShell.CreateShortcut("$Home\Desktop\update " + $myUpdateDateVernuepfung + ".lnk")
-    $Shortcut.TargetPath = "ms-settings:windowsupdate-action"
-    $Shortcut.Save()
-
-
     $wshShell = New-Object -ComObject "WScript.Shell"
+
     $urlShortcut = $wshShell.CreateShortcut(
-        (Join-Path $wshShell.SpecialFolders.Item("AllUsersDesktop") "update.url")
+        (Join-Path $wshShell.SpecialFolders.Item("AllUsersDesktop") "update $myUpdateDateVernuepfung.url")
     )
     $urlShortcut.TargetPath = "ms-settings:windowsupdate-action"
     $urlShortcut.Save()
