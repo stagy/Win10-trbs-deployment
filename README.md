@@ -15,7 +15,9 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File choco.ps1
 
 iex ((New-Object System.Net.WebClient).DownloadString('https://git.io/JJ8R4'))
 :: Set-ExecutionPolicy -ExecutionPolicy 'RemoteSigned' -Scope 'CurrentUser'
-:: iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/stagy/Win10-trbs-deployment/main/choco.ps1'))
+:: iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/stagy/Win10-trbs-deployment/main/cleaner.ps1'))
+
+:: iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/stagy/Win10-trbs-deployment/main/baseinstall.ps1'))
 
 ```
 
