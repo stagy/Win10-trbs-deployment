@@ -13,5 +13,5 @@ This will configure your Windows 10
 
 Paste the followed line in PowerShell will Install a few Basis Programms.
 ```powershell
-iwr -useb 'https://raw.githubusercontent.com/stagy/Win10-trbs-deployment/main/baseinstall.ps1'|iex
+iwr -useb 'https://raw.githubusercontent.com/stagy/Win10-trbs-deployment/blob/main/baseInstall.ps1'|iex
 ```
