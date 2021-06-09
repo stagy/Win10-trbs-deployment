@@ -22,7 +22,9 @@
     # Drops a warnig if App Installer does not meet the requirements
     else {
         write-warning "AppInstaller wird mindestens in der Version $minRequiredVersion benötigt."
-        write-warning "Die aktuelle Version des AppInstaller ist $Version" 
+        write-warning "Die aktuelle Version des AppInstaller ist $Version"
+        Write-Host "Den App Installer kannst du hier: "ms-appinstaller:?source=https://aka.ms/getwinget" Updaten."
+        Write-Host "Einfach den link in einen Browser kopieren und ausführen."
     } 
 }
 
