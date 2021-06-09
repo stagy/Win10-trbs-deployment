@@ -1,0 +1,11 @@
+# Created using wingetcreate
+
+PackageIdentifier: clickbitsGmbH.clockodo
+PackageVersion: 20210305083241
+PackageLocale: en-US
+Publisher: clickbits GmbH
+PackageName: clockodo
+License: Copyright © 2021 clickbits GmbH
+ShortDescription: clockodo
+ManifestType: defaultLocale
+ManifestVersion: 1.0.0
