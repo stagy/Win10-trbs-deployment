@@ -1,4 +1,4 @@
-﻿function basisinstall {
+
 
     # The minimum needed Verson of App Installer
     $minRequiredVersion = "1.11.11451.0"  
@@ -26,8 +26,5 @@
         Write-Host "Den App Installer kannst du hier: "ms-appinstaller:?source=https://aka.ms/getwinget" Updaten."
         Write-Host "Einfach den link in einen Browser kopieren und ausführen."
     } 
-}
 
-
-basisinstall
 
