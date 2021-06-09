@@ -9,9 +9,22 @@ Open Windows PowerShell as administrator and Paste:
 ```powershell
 iwr -useb 'https://raw.githubusercontent.com/stagy/Win10-trbs-deployment/main/configure.ps1'|iex
 ```
-This will configure your Windows 10
+This Script will configure your Windows 10 and at the end suggest some more options.
 
-Paste the followed line in PowerShell will Install a few Basis Programms.
+### Install Software
+
+This script will activate "winget" and install a few basic programs (see list below).
+
+Copy the followed line in PowerShell (run as administrator).
 ```powershell
 iwr -useb 'https://raw.githubusercontent.com/stagy/Win10-trbs-deployment/main/baseInstall.ps1'|iex
 ```
+
+List of Installing Programs:
+- 7zip
+- Git
+- NodeJS
+- Visual Studio Code
+- Google Chrome
+
+
