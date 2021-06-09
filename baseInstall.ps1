@@ -27,5 +27,5 @@
 }
 
 
-basisInstall
+basisinstall
 
