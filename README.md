@@ -2,7 +2,9 @@
 
 This is the Windows 10 Script for trbs. 
 
-### Getting started
+
+
+## Getting started
 
 Open Windows PowerShell as administrator and copy: 
 
@@ -12,7 +14,8 @@ iwr -useb 'https://raw.githubusercontent.com/stagy/Win10-trbs-deployment/main/co
 This Script will configure your Windows 10 and at the end suggest some more options.
 
 
-### Install Software
+
+## Install Software
 
 This script will activate "winget" and install a few basic programs (see list below).
 
@@ -27,6 +30,7 @@ List of Installing Programs:
 - NodeJS
 - Visual Studio Code
 - Google Chrome
+
 
 
 ## Additional configurations were considered from:
