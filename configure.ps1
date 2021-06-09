@@ -485,6 +485,8 @@ $tweaks | ForEach { Invoke-Expression $_ }
 
 
 
-Write-Output "How to view installed apps with PowerShell on Windows 10..."
+Write-Output "If you want to see a list of all Installed app on Windows just copie the line below and paste into PowerShell."
 Write-Output "Get-AppxPackage -AllUsers | Select Name, PackageFullName"
+Write-Output " "
+Write-Output "If you want to Rename your Computer just copie the line below, paste into PowerShell and replace "New_Computer_Name" with your choice."
 Write-Host "Rename-Computer -NewName "New_Computer_Name" -restart"
