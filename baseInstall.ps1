@@ -23,6 +23,7 @@
             Write-Host "Installiert Google Chrome"
             winget install Google.Chrome
             Write-Host "Alle Programme Instaliert"
+            winget
     }
 
     # Drops a warnig if App Installer does not meet the requirements
