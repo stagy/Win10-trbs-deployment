@@ -22,6 +22,8 @@
             winget install Microsoft.VisualStudioCode
             Write-Host "Installiert Google Chrome"
             winget install Google.Chrome
+            Write-Host "Installiert 1Password"
+            winget install AgileBits.1Password
             Write-Host "Alle Programme Instaliert"
             winget
     }
