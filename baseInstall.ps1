@@ -1,7 +1,7 @@
 ﻿function basisinstall {
 
     # The minimum needed Verson of App Installer
-    $minRequiredVersion = "1.11.11451.1"  
+    $minRequiredVersion = "1.11.11451.0"  
     $minRequiredVersionParts = $minRequiredVersion -split "\."
     $minRequiredVersionNumber = $minRequiredVersionParts[0]+$minRequiredVersionParts[1]+$minRequiredVersionParts[2]+$minRequiredVersionParts[3]
 
