@@ -30,6 +30,7 @@ List of Installing Programs:
 - NodeJS
 - Visual Studio Code
 - Google Chrome
+- 1Password
 
 
 
