@@ -33,6 +33,8 @@
             #Installs all Local Programms from Manifest 
             Write-Host "Installiert Asana"
             winget install --manifest C:\Users\$env:UserName\AppData\Local\Temp\gitrepo\manifests\a\Asana,Inc\AsanaforWindows\1.1.0
+            Write-Host "Installiert Clockodo"
+            winget install --manifest C:\Users\$env:UserName\AppData\Local\Temp\gitrepo\manifests\c\clickbitsGmbH\clockodo\6.0.10
 
             #Deletes temp git repo
             #Remove-Item 'C:\Users\$env:UserName\AppData\Local\Temp\gitrepo' -Recurse
