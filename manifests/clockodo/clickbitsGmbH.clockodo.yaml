@@ -1,7 +1,0 @@
-# Created using wingetcreate
-
-PackageIdentifier: clickbitsGmbH.clockodo
-PackageVersion: 20210305083241
-DefaultLocale: en-US
-ManifestType: version
-ManifestVersion: 1.0.0
