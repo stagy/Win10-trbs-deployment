@@ -489,10 +489,16 @@ if ($confirmation -eq 'y') {
     Get-AppxPackage -AllUsers | Select Name, PackageFullName
 }
 
-$confirmation = Read-Host "Do you want to want to Rename your Computer? (y = yes)"
+$confirmation = Read-Host "Do you want to Rename your Computer? (y = yes)"
 if ($confirmation -eq 'y') {
     $name = Read-Host "How do you like to name your Computer?"
     Rename-Computer -NewName $name
+}
+
+$confirmation = Read-Host "Do you want to set you windows Product key? (y = yes)"
+if ($confirmation -eq 'y') {
+    $key = Read-Host "what is you windows Product key?"
+    Set-WindowsProductKey -Path "c:\offline" -ProductKey $key
 }
 
 $confirmation = Read-Host "Do you want to install some basic software? (y = yes)"
