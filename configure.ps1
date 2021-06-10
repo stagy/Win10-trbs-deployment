@@ -495,12 +495,6 @@ if ($confirmation -eq 'y') {
     Rename-Computer -NewName $name
 }
 
-$confirmation = Read-Host "Do you want to join a Domain? (y = yes)"
-if ($confirmation -eq 'y') {
-    $domainname = Read-Host "Whats the Domain name you like to join?"
-    add-computer –domainname $domainname
-}
-
 $confirmation = Read-Host "Do you want to Set DNS-Server adress? (y = yes)"
 if ($confirmation -eq 'y') {
     get-DnsClientServerAddress
@@ -508,6 +502,12 @@ if ($confirmation -eq 'y') {
     $pDNS = Read-Host "Preferd DNS Adresse?"
     $aDNS = Read-Host "Alternade DNS Adresse?"
     Set-DnsClientServerAddress -InterfaceIndex $iDNS -ServerAddresses ("$pDNS"),("$aDNS")
+}
+
+$confirmation = Read-Host "Do you want to join a Domain? (y = yes)"
+if ($confirmation -eq 'y') {
+    $doname = Read-Host "Whats the Domain name you like to join?"
+    add-computer –domainname "$doname" -Credential admin
 }
 
 $confirmation = Read-Host "Do you want to set you windows Product key? (y = yes)"
