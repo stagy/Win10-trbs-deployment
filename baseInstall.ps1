@@ -47,7 +47,8 @@
             winget install AgileBits.1Password
 
             #Download git rebo for local Install
-            git clone https://github.com/stagy/Win10-trbs-deployment C:\Users\$env:UserName\AppData\Local\Temp\gitrepo
+            #its open a new powershell because we just installed git in this script and Powershell needs a restart to know the commands for git
+            Start-Process PowerShell "git clone https://github.com/stagy/Win10-trbs-deployment C:\Users\$env:UserName\AppData\Local\Temp\gitrepo"
 
             #Installs all Local Programms from Manifest 
             Write-Host "Installiert Asana"
