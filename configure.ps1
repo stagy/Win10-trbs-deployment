@@ -495,6 +495,12 @@ if ($confirmation -eq 'y') {
     Rename-Computer -NewName $name
 }
 
+$confirmation = Read-Host "Do you want to join a Domain? (y = yes)"
+if ($confirmation -eq 'y') {
+    $domainname = Read-Host "Whats the Domain name you like to join?"
+    add-computer –domainname $domainname
+}
+
 $confirmation = Read-Host "Do you want to set you windows Product key? (y = yes)"
 if ($confirmation -eq 'y') {
     $key = Read-Host "what is you windows Product key?"
