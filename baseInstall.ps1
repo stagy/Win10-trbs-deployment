@@ -12,6 +12,8 @@
        
     # Installs the basic Software if App Installer meet the requirements
     if ($VersionNumber -ge $minRequiredVersionNumber) {
+
+            #Instslls all Online Programms
             Write-Host "Installiert 7zip"
             winget install 7zip.7zip
             Write-Host "Installiert Git"
@@ -24,6 +26,18 @@
             winget install Google.Chrome
             Write-Host "Installiert 1Password"
             winget install AgileBits.1Password
+
+            #Download git rebo for local Install
+            git clone https://github.com/stagy/Win10-trbs-deployment C:\Users\$env:UserName\AppData\Local\Temp\gitrepo
+
+            #Installs all Local Programms from Manifest 
+            Write-Host "Installiert Asana"
+            winget install --manifest C:\Users\$env:UserName\AppData\Local\Temp\gitrepo\manifests\a\Asana,Inc\AsanaforWindows\1.1.0
+
+            #Deletes temp git repo
+            #Remove-Item 'C:\Users\$env:UserName\AppData\Local\Temp\gitrepo' -Recurse
+
+
             Write-Host "Alle Programme Instaliert"
             winget
     }
@@ -35,5 +49,4 @@
         Write-Host "Das AppInstaller Update bekommst du hier: ms-appinstaller:?source=https://aka.ms/getwinget "
         Write-Host "Einfach den link in einen Browser kopieren und ausführen."
     } 
-
 
