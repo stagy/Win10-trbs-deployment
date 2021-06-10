@@ -1,0 +1,11 @@
+# Created using wingetcreate
+
+PackageIdentifier: Asana,Inc.AsanaforWindows
+PackageVersion: 1.1.0
+PackageLocale: en-US
+Publisher: Asana, Inc.
+PackageName: Asana for Windows
+License: Copyright © 2021 Asana, Inc.
+ShortDescription: Asana for Windows
+ManifestType: defaultLocale
+ManifestVersion: 1.0.0
