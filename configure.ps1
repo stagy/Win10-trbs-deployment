@@ -505,3 +505,9 @@ $confirmation = Read-Host "Do you want to install some basic software? (y = yes)
 if ($confirmation -eq 'y') {
     iwr -useb 'https://raw.githubusercontent.com/stagy/Win10-trbs-deployment/main/baseInstall.ps1'|iex
 }
+
+$confirmation = Read-Host "Do you want to restart your computer? (y = yes)"
+if ($confirmation -eq 'y') {
+    Write-Output "Restarting..."
+    Restart-Compute
+}
