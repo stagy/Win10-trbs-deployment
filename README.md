@@ -31,7 +31,8 @@ List of Installing Programs:
 - Visual Studio Code
 - Google Chrome
 - 1Password
-
+- Clockodo
+- Asana 
 
 
 ## Additional configurations were considered from:
