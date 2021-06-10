@@ -484,12 +484,18 @@ If ($args) {
 $tweaks | ForEach { Invoke-Expression $_ }
 
 
-Write-Output " "
-Write-Output "If you want to see a list of all Installed app on Windows just copie the line below and paste into PowerShell."
-Write-Output "Get-AppxPackage -AllUsers | Select Name, PackageFullName"
-Write-Output " "
-Write-Host "If you want to Rename your Computer just copie the line below, paste into PowerShell and replace "New_Computer_Name" with your choice."
-Write-Host "Rename-Computer -NewName "New_Computer_Name" -restart"
-Write-Output " "
-Write-Output "If you want to install some basic software copy the followed line"
-Write-Output "iwr -useb 'https://raw.githubusercontent.com/stagy/Win10-trbs-deployment/main/baseInstall.ps1'|iex"
+$confirmation = Read-Host "Do you want to see a list of all Installed app on Windows? (y = yes)"
+if ($confirmation -eq 'y') {
+    Get-AppxPackage -AllUsers | Select Name, PackageFullName
+}
+
+$confirmation = Read-Host "Do you want to want to Rename your Computer? (y = yes)"
+if ($confirmation -eq 'y') {
+    $name = Read-Host "How do you like to name your Computer?"
+    Rename-Computer -NewName $name
+}
+
+$confirmation = Read-Host "Do you want to install some basic software? (y = yes)"
+if ($confirmation -eq 'y') {
+    iwr -useb 'https://raw.githubusercontent.com/stagy/Win10-trbs-deployment/main/baseInstall.ps1'|iex
+}
