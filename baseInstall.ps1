@@ -48,16 +48,16 @@
 
             #Download git rebo for local Install
             $env:path += ";C:\Program Files\Git\bin"
-            git clone https://github.com/stagy/Win10-trbs-deployment C:\Users\$env:UserName\AppData\Local\Temp\gitrepo
+            git clone https://github.com/stagy/Win10-trbs-deployment $env:temp\gitrepo
 
             #Installs all Local Programms from Manifest 
             Write-Host "Installiert Asana"
-            winget install --manifest C:\Users\$env:UserName\AppData\Local\Temp\gitrepo\manifests\a\Asana,Inc\AsanaforWindows\1.1.0
+            winget install --manifest $env:temp\gitrepo\manifests\a\Asana,Inc\AsanaforWindows\1.1.0
             Write-Host "Installiert Clockodo"
-            winget install --manifest C:\Users\$env:UserName\AppData\Local\Temp\gitrepo\manifests\c\clickbitsGmbH\clockodo\6.0.10
+            winget install --manifest $env:temp\gitrepo\manifests\c\clickbitsGmbH\clockodo\6.0.10
 
             #Deletes temp git repo
-            #Remove-Item 'C:\Users\$env:UserName\AppData\Local\Temp\gitrepo' -Recurse
+            #Remove-Item '$env:temp\gitrepo' -Recurse
 
 
             Write-Host "Alle Programme Instaliert"
