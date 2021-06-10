@@ -24,7 +24,7 @@ You will need a unique download link to a program installer. The setup should al
 
 Start the creation of a new manifest with the command 
 ```powershell
-wingetcreate new
+wingetcreate new <download link>
 ``` 
 
 Specify the link and click through the options from the creater tool and in the end do NOT submit the manifest to the Windows package manager repository. 
