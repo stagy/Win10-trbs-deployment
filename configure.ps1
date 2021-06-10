@@ -501,6 +501,13 @@ if ($confirmation -eq 'y') {
     add-computer –domainname $domainname
 }
 
+$confirmation = Read-Host "Do you want to Set DNS-Server adress? (y = yes)"
+if ($confirmation -eq 'y') {
+    $pDNS = Read-Host "Preferd DNS Adresse?"
+    $aDNS = Read-Host "Alternade DNS Adresse?"
+    Set-DnsClientServerAddress -InterfaceIndex 4 -ServerAddresses $pDNS,$aDNS
+}
+
 $confirmation = Read-Host "Do you want to set you windows Product key? (y = yes)"
 if ($confirmation -eq 'y') {
     $key = Read-Host "what is you windows Product key?"
@@ -515,5 +522,5 @@ if ($confirmation -eq 'y') {
 $confirmation = Read-Host "Do you want to restart your computer? (y = yes)"
 if ($confirmation -eq 'y') {
     Write-Output "Restarting..."
-    Restart-Compute
+    Restart-Computer
 }
