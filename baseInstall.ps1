@@ -10,8 +10,27 @@
     $VersionParts = $Version -split "\."
     $VersionNumber = $VersionParts[0]+$VersionParts[1]+$VersionParts[2]+$VersionParts[3]
        
-    # Installs the basic Software if App Installer meet the requirements
+    # check if App Installer meet the requirements
+    $passcheck = 0
     if ($VersionNumber -ge $minRequiredVersionNumber) {
+        $passcheck = 1  
+    }
+
+    # Drops a warnig if App Installer does not meet the requirements
+    else {
+        write-warning "AppInstaller wird mindestens in der Version $minRequiredVersion benötigt."
+        write-warning "Die aktuelle Version des AppInstaller ist $Version"
+        Start ms-appinstaller:?source=https://aka.ms/getwinget
+        $confirmation = Read-Host "Bitte den AppInstaller Aktualiseren und DANACH y Drücken"
+            if ($confirmation -eq 'y') {
+                $passcheck = 1 
+            }
+    }
+
+
+    
+        # Installs the basic Software
+    if ($passcheck -eq 1) {
 
             #Instslls all Online Programms
             Write-Host "Installiert 7zip"
@@ -43,12 +62,3 @@
             Write-Host "Alle Programme Instaliert"
             winget
     }
-
-    # Drops a warnig if App Installer does not meet the requirements
-    else {
-        write-warning "AppInstaller wird mindestens in der Version $minRequiredVersion benötigt."
-        write-warning "Die aktuelle Version des AppInstaller ist $Version"
-        Write-Host "Das AppInstaller Update bekommst du hier: ms-appinstaller:?source=https://aka.ms/getwinget "
-        Write-Host "Einfach den link in einen Browser kopieren und ausführen."
-    } 
-
