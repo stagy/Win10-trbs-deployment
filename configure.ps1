@@ -483,7 +483,7 @@ If ($args) {
 # Call the desired tweak functions
 $tweaks | ForEach { Invoke-Expression $_ }
 
-$writecolor = "-ForegroundColor DarkGreen -BackgroundColor White"
+$writecolor = @{ForegroundColor = "DarkGreen"; BackgroundColor = "White" }
 
 Write-Host @writecolor "Do you want to see a list of all Installed app on Windows? (y = yes)"
 $confirmation = Read-Host 
