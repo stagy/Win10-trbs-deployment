@@ -483,43 +483,44 @@ If ($args) {
 # Call the desired tweak functions
 $tweaks | ForEach { Invoke-Expression $_ }
 
+$writecolor = "-ForegroundColor DarkGreen -BackgroundColor White"
 
-$confirmation = Read-Host "Do you want to see a list of all Installed app on Windows? (y = yes)"
+$confirmation = Read-Host "Do you want to see a list of all Installed app on Windows? (y = yes)" $writecolor
 if ($confirmation -eq 'y') {
     Get-AppxPackage -AllUsers | Select Name, PackageFullName
 }
 
-$confirmation = Read-Host "Do you want to Rename your Computer? (y = yes)"
+$confirmation = Read-Host "Do you want to Rename your Computer? (y = yes)" $writecolor
 if ($confirmation -eq 'y') {
-    $name = Read-Host "How do you like to name your Computer?"
+    $name = Read-Host "How do you like to name your Computer?" $writecolor
     Rename-Computer -NewName $name
 }
 
-$confirmation = Read-Host "Do you want to Set DNS-Server adress to 192.168.2.21 and 192.168.2.1? (y = yes)"
+$confirmation = Read-Host "Do you want to Set DNS-Server adress to 192.168.2.21 and 192.168.2.1? (y = yes)" $writecolor
 if ($confirmation -eq 'y') {
     get-DnsClientServerAddress
-    $iDNS = Read-Host "Set your Interface Index?"
+    $iDNS = Read-Host "Set your Interface Index?" $writecolor
     Set-DnsClientServerAddress -InterfaceIndex $iDNS -ServerAddresses ("192.168.2.21"), ("192.168.2.1")
 }
 
-$confirmation = Read-Host "Do you want to join a Domain? (y = yes)"
+$confirmation = Read-Host "Do you want to join a Domain? (y = yes)" $writecolor
 if ($confirmation -eq 'y') {
-    $doname = Read-Host "Whats the Domain name you like to join?"
+    $doname = Read-Host "Whats the Domain name you like to join?" $writecolor
     add-computer –domainname "$doname" -Credential admin
 }
 
-$confirmation = Read-Host "Do you want to set you windows Product key? (y = yes)"
+$confirmation = Read-Host "Do you want to set you windows Product key? (y = yes)" $writecolor
 if ($confirmation -eq 'y') {
-    $key = Read-Host "what is you windows Product key?"
+    $key = Read-Host "what is you windows Product key?" $writecolor
     Set-WindowsProductKey -Path "c:\offline" -ProductKey $key
 }
 
-$confirmation = Read-Host "Do you want to Start the BaseInstall Script to install some basic software? (y = yes)"
+$confirmation = Read-Host "Do you want to Start the BaseInstall Script to install some basic software? (y = yes)" $writecolor
 if ($confirmation -eq 'y') {
     Start-Process powershell -Verb runAs "iwr -useb 'https://raw.githubusercontent.com/stagy/Win10-trbs-deployment/main/baseInstall.ps1' | iex"
 }
 
-$confirmation = Read-Host "Do you want to restart your computer? (y = yes)"
+$confirmation = Read-Host "Do you want to restart your computer? (y = yes)" $writecolor
 if ($confirmation -eq 'y') {
     Write-Output "Restarting..."
     Restart-Computer

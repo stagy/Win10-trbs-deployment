@@ -1,3 +1,4 @@
+$writecolor = "-ForegroundColor DarkGreen -BackgroundColor White"
 
 # The minimum needed Verson of App Installer
 $minRequiredVersion = "1.11.11451.0"  
@@ -21,7 +22,7 @@ else {
     write-warning "Die aktuelle Version des AppInstaller ist $Version"
     Start ms-appinstaller:?source=https://aka.ms/getwinget
     write-warning "Bitte den AppInstaller Aktualiseren und DANACH ENTER Drücken"
-    $confirmation = Read-Host "Bitte den AppInstaller Aktualiseren und DANACH ENTER Drücken, jede andere Taste bricht den Vorgang ab!"
+    $confirmation = Read-Host "Bitte den AppInstaller Aktualiseren und DANACH ENTER Drücken, jede andere Taste bricht den Vorgang ab!" $writecolor
     if ($confirmation -eq '{ENTER}') {
         $passcheck = 1 
     }
@@ -49,14 +50,15 @@ if ($passcheck -eq 1) {
     git clone https://github.com/stagy/Win10-trbs-deployment $env:temp\gitrepo
 
     #Installs all Local Programms from Manifest 
-    Write-Host "Installiert Asana"
+    Write-Host "Installiert Asana" 
     winget install --manifest $env:temp\gitrepo\manifests\a\Asana, Inc\AsanaforWindows\1.1.0
-    Write-Host "Installiert Clockodo"
+    Write-Host "Installiert Clockodo" 
     winget install --manifest $env:temp\gitrepo\manifests\c\clickbitsGmbH\clockodo\6.0.10
 
     #Deletes temp git repo
     Remove-Item $env:temp\gitrepo -Recurse
 
     winget
-    Write-Host "Alle Programme sind Instaliert. Oben Steht eine Liste für die winget Befehel"
+    Write-Host "Alle Programme sind Instaliert. Oben Steht eine Liste für die winget Befehel" $writecolor
+    Read-Host -Prompt "Press Enter to exit"
 }
