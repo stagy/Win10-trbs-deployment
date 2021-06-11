@@ -32,7 +32,10 @@ List of Installing Programs:
 - Google Chrome
 - 1Password
 - Clockodo
-- Asana 
+- Asana
+
+### How to Creat local Manifest for installing more Programms:
+https://github.com/stagy/Win10-trbs-deployment/blob/main/HowToWinGetCreate.md
 
 
 ## Additional configurations were considered from:
