@@ -57,7 +57,7 @@
             winget install --manifest $env:temp\gitrepo\manifests\c\clickbitsGmbH\clockodo\6.0.10
 
             #Deletes temp git repo
-            #Remove-Item '$env:temp\gitrepo' -Recurse
+            Remove-Item '$env:temp\gitrepo' -Recurse
 
 
             Write-Host "Alle Programme Instaliert"
