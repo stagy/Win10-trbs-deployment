@@ -1,11 +1,10 @@
 
-
 # The minimum needed Verson of App Installer
 $minRequiredVersion = "1.11.11451.0"  
 $minRequiredVersionParts = $minRequiredVersion -split "\."
 $minRequiredVersionNumber = $minRequiredVersionParts[0] + $minRequiredVersionParts[1] + $minRequiredVersionParts[2] + $minRequiredVersionParts[3]
 
-# Checks the Version of App Installer
+# Check the Version of App Installer
 $Version = (Get-AppxPackage Microsoft.DesktopAppInstaller).Version 
 $VersionParts = $Version -split "\."
 $VersionNumber = $VersionParts[0] + $VersionParts[1] + $VersionParts[2] + $VersionParts[3]
@@ -21,13 +20,12 @@ else {
     write-warning "AppInstaller wird mindestens in der Version $minRequiredVersion benötigt."
     write-warning "Die aktuelle Version des AppInstaller ist $Version"
     Start ms-appinstaller:?source=https://aka.ms/getwinget
-    $confirmation = Read-Host "Bitte den AppInstaller Aktualiseren und DANACH y Drücken"
-    if ($confirmation -eq 'y') {
+    write-warning "Bitte den AppInstaller Aktualiseren und DANACH ENTER Drücken"
+    $confirmation = Read-Host "Bitte den AppInstaller Aktualiseren und DANACH ENTER Drücken, jede andere Taste bricht den Vorgang ab!"
+    if ($confirmation -eq '{ENTER}') {
         $passcheck = 1 
     }
 }
-
-
     
 # Installs the basic Software
 if ($passcheck -eq 1) {
@@ -59,7 +57,6 @@ if ($passcheck -eq 1) {
     #Deletes temp git repo
     Remove-Item $env:temp\gitrepo -Recurse
 
-
-    Write-Host "Alle Programme Instaliert"
     winget
+    Write-Host "Alle Programme sind Instaliert. Oben Steht eine Liste für die winget Befehel"
 }

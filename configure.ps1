@@ -495,13 +495,11 @@ if ($confirmation -eq 'y') {
     Rename-Computer -NewName $name
 }
 
-$confirmation = Read-Host "Do you want to Set DNS-Server adress? (y = yes)"
+$confirmation = Read-Host "Do you want to Set DNS-Server adress to 192.168.2.21 and 192.168.2.1? (y = yes)"
 if ($confirmation -eq 'y') {
     get-DnsClientServerAddress
     $iDNS = Read-Host "Set your Interface Index?"
-    $pDNS = Read-Host "Preferd DNS Adresse?"
-    $aDNS = Read-Host "Alternade DNS Adresse?"
-    Set-DnsClientServerAddress -InterfaceIndex $iDNS -ServerAddresses ("$pDNS"),("$aDNS")
+    Set-DnsClientServerAddress -InterfaceIndex $iDNS -ServerAddresses ("192.168.2.21"), ("192.168.2.1")
 }
 
 $confirmation = Read-Host "Do you want to join a Domain? (y = yes)"
@@ -516,9 +514,9 @@ if ($confirmation -eq 'y') {
     Set-WindowsProductKey -Path "c:\offline" -ProductKey $key
 }
 
-$confirmation = Read-Host "Do you want to install some basic software? (y = yes)"
+$confirmation = Read-Host "Do you want to Start the BaseInstall Script to install some basic software? (y = yes)"
 if ($confirmation -eq 'y') {
-    iwr -useb 'https://raw.githubusercontent.com/stagy/Win10-trbs-deployment/main/baseInstall.ps1'|iex
+    Start-Process powershell -Verb runAs "iwr -useb 'https://raw.githubusercontent.com/stagy/Win10-trbs-deployment/main/baseInstall.ps1' | iex"
 }
 
 $confirmation = Read-Host "Do you want to restart your computer? (y = yes)"
