@@ -57,8 +57,7 @@ if ($passcheck -eq 1) {
     winget install --manifest $env:temp\gitrepo\manifests\c\clickbitsGmbH\clockodo\6.0.10
 
     #Deletes temp git repo
-    Remove-Item $env:temp\gitrepo -Verb runAs
-
+    Remove-Item $env:temp\gitrepo
     winget
     Write-Host @writecolor "Alle Programme sind Instaliert. Oben Steht eine Liste für die winget Befehel"
     Read-Host -Prompt "Press Enter to exit"
