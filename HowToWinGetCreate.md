@@ -46,8 +46,8 @@ Allerdings muss das "baseInstall.ps1" Script für neue manifeste angepasst werde
 ```powershell
 #Installs all Local Programms from Manifest 
 Write-Host "Installiert Asana"
-winget install --manifest C:\Users\$env:UserName\AppData\Local\Temp\gitrepo\manifests\a\Asana,Inc\AsanaforWindows\1.1.0
+winget install --manifest $env:temp\gitrepo\manifests\a\Asana,Inc\AsanaforWindows\1.1.0
 Write-Host "Installiert Clockodo"
-winget install --manifest C:\Users\$env:UserName\AppData\Local\Temp\gitrepo\manifests\c\clickbitsGmbH\clockodo\6.0.10
+winget install --manifest $env:temp\gitrepo\manifests\c\clickbitsGmbH\clockodo\6.0.10
 ``` 
 eifach die Zeilen hinzufügen und die Pfade für die neuen Manifeste angeben.
