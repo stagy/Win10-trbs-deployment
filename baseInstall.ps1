@@ -1,4 +1,4 @@
-$writecolor = "-ForegroundColor DarkGreen -BackgroundColor White"
+$writecolor = @{ForegroundColor = "DarkGreen"; BackgroundColor = "White" }
 
 # The minimum needed Verson of App Installer
 $minRequiredVersion = "1.11.11451.0"  
@@ -22,7 +22,7 @@ else {
     write-warning "Die aktuelle Version des AppInstaller ist $Version"
     Start ms-appinstaller:?source=https://aka.ms/getwinget
     write-warning "Bitte den AppInstaller Aktualiseren und DANACH ENTER Drücken"
-    $confirmation = Read-Host "Bitte den AppInstaller Aktualiseren und DANACH ENTER Drücken, jede andere Taste bricht den Vorgang ab!" $writecolor
+    $confirmation = Read-Host @writecolor "Bitte den AppInstaller Aktualiseren und DANACH ENTER Drücken, jede andere Taste bricht den Vorgang ab!"
     if ($confirmation -eq '{ENTER}') {
         $passcheck = 1 
     }
@@ -59,6 +59,6 @@ if ($passcheck -eq 1) {
     Remove-Item $env:temp\gitrepo -Recurse
 
     winget
-    Write-Host "Alle Programme sind Instaliert. Oben Steht eine Liste für die winget Befehel" $writecolor
+    Write-Host @writecolor "Alle Programme sind Instaliert. Oben Steht eine Liste für die winget Befehel"
     Read-Host -Prompt "Press Enter to exit"
 }
