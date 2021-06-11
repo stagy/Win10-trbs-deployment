@@ -41,7 +41,7 @@ a locally stored manifest can be installed. Of course, the correct path to the m
 
 ## Für trbs
 
-Die Erstellten Manifeste sind in der Repo im Order "manifests" und müssen dort im Order ergänzt werden. Das Script "baseInstall.ps1" Downloaded alle maifeste.
+Die Erstellten Manifeste sind in dem Repo Order "manifests" und müssen dort im Ordner ergänzt werden. Das Script "baseInstall.ps1" Downloaded alle maifeste.
 Allerdings muss das "baseInstall.ps1" Script für neue manifeste angepasst werden:
 ```powershell
 #Installs all Local Programms from Manifest 
