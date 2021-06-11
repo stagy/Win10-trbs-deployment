@@ -21,9 +21,10 @@ else {
     write-warning "AppInstaller wird mindestens in der Version $minRequiredVersion benötigt."
     write-warning "Die aktuelle Version des AppInstaller ist $Version"
     Start ms-appinstaller:?source=https://aka.ms/getwinget
-    write-warning "Bitte den AppInstaller Aktualiseren und DANACH ENTER Drücken"
-    $confirmation = Read-Host @writecolor "Bitte den AppInstaller Aktualiseren und DANACH ENTER Drücken, jede andere Taste bricht den Vorgang ab!"
-    if ($confirmation -eq '{ENTER}') {
+    write-warning "Bitte den AppInstaller Aktualiseren und DANACH y Drücken"
+    Write-Host @writecolor "Bitte den AppInstaller Aktualiseren und DANACH y Drücken, jede andere Taste bricht den Vorgang ab!"
+    $confirmation = Read-Host
+    if ($confirmation -eq 'y') {
         $passcheck = 1 
     }
 }
